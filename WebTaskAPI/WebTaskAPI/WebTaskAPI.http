@@ -1,6 +1,0 @@
-@WebTaskAPI_HostAddress = http://localhost:5273
-
-GET {{WebTaskAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
