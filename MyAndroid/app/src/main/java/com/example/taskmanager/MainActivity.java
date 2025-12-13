@@ -1,23 +1,30 @@
 package com.example.taskmanager;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanager.dto.zadachi.ZadachaItemDTO;
 import com.example.taskmanager.network.RetrofitClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
+
+    RecyclerView taskRecycler;
+    TaskAdapter adapter;
+
+    View addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,23 +36,40 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        RetrofitClient
-                .getInstance()
-                .getZadachiApi()
-                .list()
+
+        taskRecycler = findViewById(R.id.taskRecycler);
+        taskRecycler.setAdapter(new TaskAdapter(new ArrayList<>()));
+        taskRecycler.setLayoutManager(
+                new androidx.recyclerview.widget.LinearLayoutManager(this)
+        );
+
+        addButton = findViewById(R.id.addButton);
+
+        addButton.setOnClickListener(v ->
+                {
+                    goToAddTaskActivity();
+                }
+        );
+        loadTaskList();
+    }
+
+    private void loadTaskList() {
+        RetrofitClient.getInstance().getZadachiApi().list()
                 .enqueue(new Callback<List<ZadachaItemDTO>>() {
                     @Override
                     public void onResponse(Call<List<ZadachaItemDTO>> call, Response<List<ZadachaItemDTO>> response) {
-                        if (response.isSuccessful()) {
-                            List<ZadachaItemDTO> items = response.body();
-                            int count = items.size();
+                        if (response.isSuccessful() && response.body() != null) {
+                            adapter = new TaskAdapter(response.body());
+                            taskRecycler.setAdapter(adapter);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<ZadachaItemDTO>> call, Throwable t) {
-
+                        t.printStackTrace();
                     }
                 });
     }
+
+
 }
