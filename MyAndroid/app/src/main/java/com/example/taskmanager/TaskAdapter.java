@@ -3,6 +3,7 @@ package com.example.taskmanager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,16 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.taskmanager.config.Config;
 import com.example.taskmanager.dto.zadachi.ZadachaItemDTO;
+import com.example.taskmanager.zadacha.OnItemClickZadacha;
+
 import java.util.Collections;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     List<ZadachaItemDTO> taskList;
+    private final OnItemClickZadacha onEditListener;
 
-    public TaskAdapter(List<ZadachaItemDTO> taskList) {
+    public TaskAdapter(List<ZadachaItemDTO> taskList,
+                       OnItemClickZadacha onEditListener) {
         this.taskList = taskList;
-
+        this.onEditListener = onEditListener;
     }
 
     @NonNull
@@ -41,6 +46,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Glide.with(holder.itemView.getContext())
                 .load(Config.IMAGES_URL + "400_" + item.getImage())
                 .into(holder.taskImage);
+
+        holder.edit_btn.setOnClickListener(x -> onEditListener.onItemClick(item));
     }
 
     @Override
@@ -53,17 +60,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         notifyItemMoved(from, to);
     }
 
+
     static class TaskViewHolder extends RecyclerView.ViewHolder {
 
         TextView taskText;
         CheckBox taskCheckBox;
         ImageView taskImage;
+        public Button edit_btn;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             taskText = itemView.findViewById(R.id.taskText);
             taskCheckBox = itemView.findViewById(R.id.taskCheckBox);
             taskImage = itemView.findViewById(R.id.taskImage);
+            edit_btn=itemView.findViewById(R.id.edit_btn);
         }
     }
 

@@ -1,6 +1,5 @@
 package com.example.taskmanager;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,15 +12,12 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.taskmanager.config.Config;
 import com.example.taskmanager.dto.zadachi.ZadachaItemDTO;
 import com.example.taskmanager.network.RetrofitClient;
-import com.example.taskmanager.utils.FileUtil;
-import com.example.taskmanager.utils.UriRequestBody;
 
 import java.io.File;
 
@@ -60,7 +56,7 @@ public class AddTaskActivity extends BaseActivity {
         findViewById(R.id.chooseImageButton)
                 .setOnClickListener(v -> imagePicker.launch("image/*"));
 
-        String url = Config.IMAGES_URL+"preview.jpg";
+        String url = Config.IMAGES_URL+"default.jpg";
         Glide.with(this)
                 .load(url)
                 .apply(new RequestOptions().override(300))
