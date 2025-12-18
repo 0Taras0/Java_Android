@@ -1,4 +1,4 @@
-package com.example.taskmanager;
+package com.example.taskmanager.screens;
 
 import android.content.Intent;
 import android.view.Menu;
@@ -6,6 +6,7 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.taskmanager.R;
 import com.example.taskmanager.utils.CommonUtils;
 
 public class BaseActivity extends AppCompatActivity {
@@ -47,5 +48,8 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    protected void goToRegistration() {
+        Intent intent = new Intent(BaseActivity.this, RegisterActivity.class);
+        startActivity(intent);
+    }
 }

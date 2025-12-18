@@ -1,4 +1,4 @@
-package com.example.taskmanager;
+package com.example.taskmanager.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanager.R;
+import com.example.taskmanager.TaskAdapter;
 import com.example.taskmanager.dto.zadachi.ZadachaItemDTO;
 import com.example.taskmanager.network.RetrofitClient;
 import com.example.taskmanager.utils.CommonUtils;
@@ -26,6 +28,7 @@ public class MainActivity extends BaseActivity {
     RecyclerView taskRecycler;
     TaskAdapter adapter;
 
+    View accountButton;
     View addButton;
 
     @Override
@@ -47,6 +50,9 @@ public class MainActivity extends BaseActivity {
         );
 
         addButton = findViewById(R.id.addButton);
+        accountButton = findViewById(R.id.accountButton);
+
+        accountButton.setOnClickListener(v -> goToRegistration());
 
         addButton.setOnClickListener(v ->
                 {

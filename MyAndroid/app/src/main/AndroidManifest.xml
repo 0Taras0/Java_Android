@@ -17,13 +17,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskManager">
         <activity
-            android:name=".EditTaskActivity"
+            android:name=".screens.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".AddTaskActivity"
+            android:name=".screens.EditTaskActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".screens.AddTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
