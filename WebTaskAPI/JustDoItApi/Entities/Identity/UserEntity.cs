@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace JustDoItApi.Entities.Identity
 {
@@ -10,5 +10,6 @@ namespace JustDoItApi.Entities.Identity
         public string? LastName { get; set; } = string.Empty;
         public string? Image { get; set; } = string.Empty;
         public virtual ICollection<UserRoleEntity>? UserRoles { get; set; }
+        public virtual ICollection<ZadachaEntity>? Zadachas { get; set; }
     }
 }

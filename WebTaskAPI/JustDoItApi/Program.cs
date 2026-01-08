@@ -79,4 +79,6 @@ app.UseAuthentication();
 
 app.MapControllers();
 
+await app.SeedDataAsync();
+
 await app.RunAsync();

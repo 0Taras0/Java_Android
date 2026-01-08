@@ -7,7 +7,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.taskmanager.R;
+import com.example.taskmanager.application.HomeApplication;
+import com.example.taskmanager.dto.auth.AuthResponse;
 import com.example.taskmanager.network.RetrofitClient;
+import com.example.taskmanager.security.JwtSecurityService;
 import com.example.taskmanager.utils.CommonUtils;
 import com.example.taskmanager.utils.FileUtil;
 import com.example.taskmanager.utils.ImagePickerCropper;
@@ -165,14 +168,16 @@ public class RegisterActivity extends BaseActivity {
         RetrofitClient.getInstance()
                 .getAuthApi()
                 .register(fnPart, lnPart, emPart, pwPart, imagePart)
-                .enqueue(new Callback<Void>() {
+                .enqueue(new Callback<AuthResponse>() {
 
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
+                    public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                         CommonUtils.hideLoading();
 
                         if (response.isSuccessful()) {
                             MyLogger.toast("Реєстрація успішна");
+                            String token = response.body().getToken();
+                            HomeApplication.getInstance().saveJwtToken(token);
                             finish();
                         } else {
                             MyLogger.toast("Помилка сервера: " + response.code());
@@ -180,7 +185,7 @@ public class RegisterActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
+                    public void onFailure(Call<AuthResponse> call, Throwable t) {
                         CommonUtils.hideLoading();
                         MyLogger.toast("Помилка: " + t.getMessage());
                     }
