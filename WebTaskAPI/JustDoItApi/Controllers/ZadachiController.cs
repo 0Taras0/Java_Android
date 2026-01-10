@@ -1,24 +1,27 @@
 using JustDoItApi.Interfaces;
 using JustDoItApi.Models.Zadachi;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace JustDoItApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class ZadachiController(IZadachiService zadachiService) : ControllerBase
 {
 
-    [HttpGet()]
+    [HttpGet]
     public async Task<IActionResult> Get()
     {
+        Thread.Sleep(2000);
         var items = await zadachiService.GetAllAsync();
 
         return Ok(items);
     }
 
-    [HttpPost()]
+    [HttpPost]
+    [Consumes("multipart/form-data")]
     public async Task<IActionResult> Post([FromForm] ZadachaCreateModel model)
     {
         var res = await zadachiService.CreateZadachyAsync(model);
@@ -47,7 +50,8 @@ public class ZadachiController(IZadachiService zadachiService) : ControllerBase
         return Ok();
     }
 
-    [HttpPut()]
+    [HttpPut]
+    [Consumes("multipart/form-data")]
     public async Task<IActionResult> Put([FromForm] ZadachaUpdateModel model)
     {
         var res = await zadachiService.UpdateZadachyAsync(model);
