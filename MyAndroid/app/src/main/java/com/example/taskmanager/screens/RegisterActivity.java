@@ -2,9 +2,10 @@ package com.example.taskmanager.screens;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
+
 
 import com.example.taskmanager.R;
 import com.example.taskmanager.application.HomeApplication;
@@ -33,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends AuthActivity {
 
     private TextInputLayout firstNameLayout, lastNameLayout, emailLayout, passwordLayout;
     private TextInputEditText firstNameInput, lastNameInput, emailInput, passwordInput;
@@ -73,14 +74,14 @@ public class RegisterActivity extends BaseActivity {
 
     private void initViews() {
         firstNameLayout = findViewById(R.id.firstNameLayout);
-        lastNameLayout = findViewById(R.id.lastNameLayout);
-        emailLayout = findViewById(R.id.emailLayout);
-        passwordLayout = findViewById(R.id.passwordLayout);
+        lastNameLayout  = findViewById(R.id.lastNameLayout);
+        emailLayout     = findViewById(R.id.emailLayout);
+        passwordLayout  = findViewById(R.id.passwordLayout);
 
-        firstNameInput = findViewById(R.id.firstName);
-        lastNameInput = findViewById(R.id.lastName);
-        emailInput = findViewById(R.id.email);
-        passwordInput = findViewById(R.id.password);
+        firstNameInput  = findViewById(R.id.firstName);
+        lastNameInput   = findViewById(R.id.lastName);
+        emailInput      = findViewById(R.id.email);
+        passwordInput   = findViewById(R.id.password);
 
         imagePreview = findViewById(R.id.imagePreview);
     }
@@ -112,6 +113,7 @@ public class RegisterActivity extends BaseActivity {
 
         findViewById(R.id.selectImage).setOnClickListener(v ->
                 imageCropper.pick(uri -> {
+                    Log.d("---URL image----", uri.getPath());
                     selectedImageUri = uri;
                     imagePreview.setImageURI(uri);
                 })
@@ -126,6 +128,7 @@ public class RegisterActivity extends BaseActivity {
         initViews();
         initValidator();
         initImagePicker();
+
     }
 
     public void onRegisterClick(View view) {
@@ -173,11 +176,12 @@ public class RegisterActivity extends BaseActivity {
                     @Override
                     public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                         CommonUtils.hideLoading();
-
                         if (response.isSuccessful()) {
                             MyLogger.toast("Реєстрація успішна");
                             String token = response.body().getToken();
                             HomeApplication.getInstance().saveJwtToken(token);
+//                            JwtSecurityService jwtService = HomeApplication.getInstance();
+//                            jwtService.saveJwtToken(token);
                             finish();
                         } else {
                             MyLogger.toast("Помилка сервера: " + response.code());
@@ -190,5 +194,9 @@ public class RegisterActivity extends BaseActivity {
                         MyLogger.toast("Помилка: " + t.getMessage());
                     }
                 });
+    }
+
+    public void onBackToLoginClick(View view) {
+        goToLogin();
     }
 }

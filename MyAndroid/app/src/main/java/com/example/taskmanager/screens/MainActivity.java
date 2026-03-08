@@ -3,6 +3,7 @@ package com.example.taskmanager.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -12,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanager.R;
 import com.example.taskmanager.TaskAdapter;
+import com.example.taskmanager.application.HomeApplication;
 import com.example.taskmanager.dto.zadachi.ZadachaItemDTO;
 import com.example.taskmanager.network.RetrofitClient;
 import com.example.taskmanager.utils.CommonUtils;
+import com.example.taskmanager.utils.MyLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,8 @@ public class MainActivity extends BaseActivity {
 
     View accountButton;
     View addButton;
+
+    private ImageView userAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,16 @@ public class MainActivity extends BaseActivity {
                     goToAddTaskActivity();
                 }
         );
+
+        userAvatar = findViewById(R.id.userAvatar);
+        userAvatar.setOnClickListener(v -> {
+            HomeApplication.getInstance().deleteToken();
+            //UserState.getInstance().clear();
+            //updateAuthUI();
+            MyLogger.toast("Ви вийшли з системи");
+            goToLogin();
+        });
+
         CommonUtils.showLoading();
         loadTaskList();
 

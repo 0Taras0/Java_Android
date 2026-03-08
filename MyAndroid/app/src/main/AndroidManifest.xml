@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskManager">
         <activity
+            android:name=".screens.AuthActivity"
+            android:exported="false" />
+        <activity
             android:name=".screens.RegisterActivity"
             android:exported="false" />
         <activity
@@ -29,12 +32,9 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
         <activity
             android:name=".screens.MainActivity"
-            android:exported="false">
-        </activity>
-
+            android:exported="false"></activity>
         <activity
             android:name=".screens.LoginActivity"
             android:exported="true">
